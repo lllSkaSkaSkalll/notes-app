@@ -8,8 +8,31 @@ import { zodResolver } from "@hookform/resolvers/zod";
 const schema = z.object({
     title: z.string().trim().min(1, { message: "Title can't empty" }).min(3, { message: "Title must be at least 3 characters" }).max(20, { message: "Title must be less than 20 characters" }),
     content: z.string().trim().min(1, { message: "Content can't empty" }).min(3, { message: "Content must be at least 3 characters" }).max(50, { message: "Content must be less than 50 characters" }),
-    tag: z.string().trim().min(1, { message: "Tag can't empty" }).min(3, { message: "Tag must be at least 3 characters" }).max(10, { message: "Tag must be less than 10 characters" }),
-    date: z.string().min(1, { message: "Date can't empty" }).date("Please enter a valid date"),
+    tag: z
+        .string()
+        .trim()
+        .min(1, { message: "Tag can't empty" })
+        .min(3, { message: "Tag must be at least 3 characters" })
+        .max(10, { message: "Tag must be less than 10 characters" })
+        .regex(/^[a-zA-Z]+$/, { message: "Tag can't contain spaces, numbers, or symbols" }),
+    date: z
+        .string()
+        .min(1, { message: "Date can't empty" })
+        .date("Please enter a valid date")
+        .refine(
+            (value) => {
+                const date = new Date(value);
+                const today = new Date();
+                const nextYear = new Date(today.getFullYear() + 1);
+
+                // Clear the time part for accurate comparison
+                today.setHours(0, 0, 0, 0);
+                nextYear.setHours(0, 0, 0, 0);
+
+                return date >= today && date <= nextYear;
+            },
+            { message: "Date must be between today and next year" }
+        ),
 });
 
 const AddNewNotes = () => {
@@ -34,6 +57,9 @@ const AddNewNotes = () => {
     const onSubmit = (data) => {
         setIsSubmitting(true);
 
+        const tag = data.tag;
+        const newTag = tag.startsWith("#") ? tag : `#${tag}`;
+
         const newData = {
             id: newBigestId,
             title: data.title,
@@ -41,7 +67,7 @@ const AddNewNotes = () => {
             date: data.date,
             content: data.content,
             isPinned: false,
-            tag: data.tag,
+            tag: newTag,
             search: data.title + " " + data.content + " " + data.tag,
         };
 
