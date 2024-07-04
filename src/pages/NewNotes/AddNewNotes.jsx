@@ -29,7 +29,7 @@ const AddNewNotes = () => {
     const { todayDate, nextYearDate } = getDate();
 
     const datasId = datas.map((data) => data.id);
-    const newBigestId = datasId ? Math.max(...datasId) + 1 : 1;
+    const newBigestId = datasId && datasId.length > 0 ? Math.max(...datasId) + 1 : 1;
 
     const onSubmit = (data) => {
         setIsSubmitting(true);
