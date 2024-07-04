@@ -97,7 +97,7 @@ const Home = () => {
                             value={searchApi}
                             onChange={(e) => setSearchApi(e.target.value)}
                             placeholder="Search..."
-                            className="px-5 py-2 bg-slate-500 text-white rounded-r-xl focus:outline-none focus:border-none shadow-[5px_3px_0_0_#000] min-w-80"
+                            className="px-5 py-2 bg-slate-500 text-white rounded-r-xl focus:outline-none focus:border-none shadow-[5px_3px_0_0_#000] w-full"
                         />
                         <XLogo size={24} onClick={() => setSearchApi("")} className="absolute right-5 text-white cursor-pointer hover:text-yellow-500" />
                     </div>
