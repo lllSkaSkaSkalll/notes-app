@@ -1,0 +1,202 @@
+[
+    {
+        "id": 1,
+        "title": "Learn React",
+        "completed": false,
+        "date": "2024-07-01",
+        "content": "Learn React with Redux",
+        "isPinned": false,
+        "tag": "#learn",
+        "search": "Learn React Learn React with Redux #learn"
+    },
+    {
+        "id": 2,
+        "title": "Read JavaScript Book",
+        "completed": false,
+        "date": "2024-07-02",
+        "content": "Read 'You Don't Know JS'",
+        "isPinned": true,
+        "tag": "#read",
+        "search": "Read JavaScript Book Read 'You Don't Know JS' #read"
+    },
+    {
+        "id": 3,
+        "title": "Complete Project",
+        "completed": true,
+        "date": "2024-07-03",
+        "content": "Finish the front-end project",
+        "isPinned": false,
+        "tag": "#project",
+        "search": "Complete Project Finish the front-end project #project"
+    },
+    {
+        "id": 4,
+        "title": "Study CSS Grid",
+        "completed": false,
+        "date": "2024-07-04",
+        "content": "Learn CSS Grid layout",
+        "isPinned": true,
+        "tag": "#learn",
+        "search": "Study CSS Grid Learn CSS Grid layout #learn"
+    },
+    {
+        "id": 5,
+        "title": "Attend Meeting",
+        "completed": true,
+        "date": "2024-07-05",
+        "content": "Project update meeting",
+        "isPinned": false,
+        "tag": "#meeting",
+        "search": "Attend Meeting Project update meeting #meeting"
+    },
+    {
+        "id": 6,
+        "title": "Write Blog Post",
+        "completed": false,
+        "date": "2024-07-06",
+        "content": "Write a blog post on JavaScript",
+        "isPinned": true,
+        "tag": "#write",
+        "search": "Write Blog Post Write a blog post on JavaScript #write"
+    },
+    {
+        "id": 7,
+        "title": "Update Resume",
+        "completed": false,
+        "date": "2024-07-07",
+        "content": "Update resume with new skills",
+        "isPinned": false,
+        "tag": "#update",
+        "search": "Update Resume Update resume with new skills #update"
+    },
+    {
+        "id": 8,
+        "title": "Learn TypeScript",
+        "completed": false,
+        "date": "2024-07-08",
+        "content": "Start learning TypeScript basics",
+        "isPinned": false,
+        "tag": "#learn",
+        "search": "Learn TypeScript Start learning TypeScript basics #learn"
+    },
+    {
+        "id": 9,
+        "title": "Exercise",
+        "completed": true,
+        "date": "2024-07-09",
+        "content": "Go for a 30-minute run",
+        "isPinned": false,
+        "tag": "#health",
+        "search": "Exercise Go for a 30-minute run #health"
+    },
+    {
+        "id": 10,
+        "title": "Grocery Shopping",
+        "completed": false,
+        "date": "2024-07-10",
+        "content": "Buy groceries for the week",
+        "isPinned": false,
+        "tag": "#shopping",
+        "search": "Grocery Shopping Buy groceries for the week #shopping"
+    },
+    {
+        "id": 11,
+        "title": "Watch Tutorial",
+        "completed": false,
+        "date": "2024-07-11",
+        "content": "Watch advanced React tutorials",
+        "isPinned": false,
+        "tag": "#learn",
+        "search": "Watch Tutorial Watch advanced React tutorials #learn"
+    },
+    {
+        "id": 12,
+        "title": "Fix Bugs",
+        "completed": false,
+        "date": "2024-07-12",
+        "content": "Debug the new feature",
+        "isPinned": false,
+        "tag": "#debug",
+        "search": "Fix Bugs Debug the new feature #debug"
+    },
+    {
+        "id": 13,
+        "title": "Prepare Presentation",
+        "completed": false,
+        "date": "2024-07-13",
+        "content": "Prepare slides for the meeting",
+        "isPinned": false,
+        "tag": "#work",
+        "search": "Prepare Presentation Prepare slides for the meeting #work"
+    },
+    {
+        "id": 14,
+        "title": "Clean House",
+        "completed": false,
+        "date": "2024-07-14",
+        "content": "Clean the living room and kitchen",
+        "isPinned": false,
+        "tag": "#chores",
+        "search": "Clean House Clean the living room and kitchen #chores"
+    },
+    {
+        "id": 15,
+        "title": "Learn GraphQL",
+        "completed": false,
+        "date": "2024-07-15",
+        "content": "Study GraphQL for APIs",
+        "isPinned": true,
+        "tag": "#learn",
+        "search": "Learn GraphQL Study GraphQL for APIs #learn"
+    },
+    {
+        "id": 16,
+        "title": "Plan Vacation",
+        "completed": false,
+        "date": "2024-07-16",
+        "content": "Plan the summer vacation trip",
+        "isPinned": false,
+        "tag": "#planning",
+        "search": "Plan Vacation Plan the summer vacation trip #planning"
+    },
+    {
+        "id": 17,
+        "title": "Read Book",
+        "completed": false,
+        "date": "2024-07-17",
+        "content": "Finish reading 'Clean Code'",
+        "isPinned": false,
+        "tag": "#read",
+        "search": "Read Book Finish reading 'Clean Code' #read"
+    },
+    {
+        "id": 18,
+        "title": "Learn Node.js",
+        "completed": false,
+        "date": "2024-07-18",
+        "content": "Start learning Node.js",
+        "isPinned": false,
+        "tag": "#learn",
+        "search": "Learn Node.js Start learning Node.js #learn"
+    },
+    {
+        "id": 19,
+        "title": "Weekly Review",
+        "completed": true,
+        "date": "2024-07-19",
+        "content": "Review the tasks for the week",
+        "isPinned": false,
+        "tag": "#review",
+        "search": "Weekly Review Review the tasks for the week #review"
+    },
+    {
+        "id": 20,
+        "title": "Buy New Laptop",
+        "completed": false,
+        "date": "2024-07-20",
+        "content": "Research and buy a new laptop",
+        "isPinned": false,
+        "tag": "#shopping",
+        "search": "Buy New Laptop Research and buy a new laptop #shopping"
+    }
+]
