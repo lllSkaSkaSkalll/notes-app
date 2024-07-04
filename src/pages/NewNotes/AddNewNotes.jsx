@@ -21,15 +21,8 @@ const schema = z.object({
         .date("Please enter a valid date")
         .refine(
             (value) => {
-                const date = new Date(value);
-                const today = new Date();
-                const nextYear = new Date(today.getFullYear() + 1);
-
-                // Clear the time part for accurate comparison
-                today.setHours(0, 0, 0, 0);
-                nextYear.setHours(0, 0, 0, 0);
-
-                return date >= today && date <= nextYear;
+                const { todayDate, nextYearDate } = getDate();
+                return value >= todayDate && value <= nextYearDate;
             },
             { message: "Date must be between today and next year" }
         ),
@@ -101,14 +94,24 @@ const AddNewNotes = () => {
                                 <input type="text" {...register("tag")} className="px-2 py-3 w-full text-xl border-2 border-black rounded-xl bg-slate-500 text-white" placeholder="Tags..." />
                                 {errors.tag && <p className="text-red-500">{errors.tag.message}</p>}
                             </div>
-                            <div className="">
+                            <div className="relative">
+                                <p className="text-sm absolute -top-5 left-0 text-white">Month/Day/Year</p>
                                 <input type="date" {...register("date")} defaultValue={todayDate} min={todayDate} max={nextYearDate} className="px-2 py-3 w-full text-xl border-2 border-black rounded-xl bg-slate-500 text-white" />
                                 {errors.date && <p className="text-red-500">{errors.date.message}</p>}
                             </div>
                         </div>
-                        <div className="pt-10">
-                            <button type="submit" disabled={isSubmitting} className="w-full bg-blue-500 text-white font-bold py-3 px-4 rounded">
-                                {isSubmitting ? "Loading..." : "Submit"}
+                        <div className="pt-10 pb-5">
+                            <button type="submit" disabled={isSubmitting} className="w-full bg-blue-500 hover:translate-y-2 hover:scale-95 group duration-300 text-white font-bold rounded-xl border-2 border-transparent">
+                                {isSubmitting ? (
+                                    <div className="w-full py-4 text-xl font-bold font-podkova flex items-center border-2 border-black duration-300 justify-center gap-3 group-hover:bg-white rounded-[inherit] group-hover:bg-opacity-50 backdrop-blur-[2px] group-hover:-translate-y-4 group-hover:text-black group-hover:scale-105">
+                                        <span className="w-5 h-5 animate-spin border-[3px] border-white group-hover:border-black group-hover:border-t-white border-t-teal-500 rounded-full"></span>
+                                        <p>Loading...</p>
+                                    </div>
+                                ) : (
+                                    <div className="w-full py-4 text-xl font-bold font-podkova flex items-center border-2 border-black duration-300 justify-center gap-3 group-hover:bg-white rounded-[inherit] group-hover:bg-opacity-50 backdrop-blur-[2px] group-hover:-translate-y-4 group-hover:text-black group-hover:scale-105">
+                                        <p>Submit</p>
+                                    </div>
+                                )}
                             </button>
                         </div>
                     </form>
