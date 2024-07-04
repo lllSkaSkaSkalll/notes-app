@@ -96,7 +96,7 @@ const AddNewNotes = () => {
                             </div>
                             <div className="relative">
                                 <p className="text-xs absolute -top-2 left-3 text-white border border-black bg-slate-700 rounded-full px-2 py-[2px]">Month/Day/Year</p>
-                                <input type="date" {...register("date")} defaultValue={todayDate} min={todayDate} max={nextYearDate} className="px-2 py-3 w-full text-xl border-2 border-black rounded-xl bg-slate-500 text-white" />
+                                <input type="date" {...register("date")} defaultValue={todayDate} min={todayDate} max={nextYearDate} className="px-2 py-3 w-full text-xl border border-black rounded-xl bg-slate-500 text-white" />
                                 {errors.date && <p className="text-red-500">{errors.date.message}</p>}
                             </div>
                         </div>
