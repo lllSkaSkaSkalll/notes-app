@@ -50,6 +50,10 @@ const Home = () => {
         });
     }, []);
 
+    // const handleEdit = useCallback((id) => {
+    //     console.log(id);
+    // }, []);
+
     const datasSearch = useMemo(() => {
         return datas.filter((data) => {
             if (searchTerm !== "") {
@@ -110,6 +114,7 @@ const Home = () => {
                         <>
                             {categoryDatas.pinned.map((data, index) => (
                                 <CardNotes
+                                    id={data.id}
                                     key={index}
                                     tag={data.tag}
                                     date={data.date}
@@ -117,6 +122,7 @@ const Home = () => {
                                     content={data.content}
                                     isPinned={data.isPinned}
                                     checkboxValue={data.completed}
+                                    // onEdit={() => handleEdit(data.id)}
                                     onClick={() => handlePinned(data.id)}
                                     onDelete={() => handleDelete(data.id)}
                                     onComplete={() => handleComplete(data.id)}
@@ -124,6 +130,7 @@ const Home = () => {
                             ))}
                             {categoryDatas.filltered.map((data, index) => (
                                 <CardNotes
+                                    id={data.id}
                                     key={index}
                                     tag={data.tag}
                                     date={data.date}
@@ -131,6 +138,7 @@ const Home = () => {
                                     content={data.content}
                                     isPinned={data.isPinned}
                                     checkboxValue={data.completed}
+                                    // onEdit={() => handleEdit(data.id)}
                                     onClick={() => handlePinned(data.id)}
                                     onDelete={() => handleDelete(data.id)}
                                     onComplete={() => handleComplete(data.id)}
@@ -138,6 +146,7 @@ const Home = () => {
                             ))}
                             {categoryDatas.completed.map((data, index) => (
                                 <CardNotes
+                                    id={data.id}
                                     key={index}
                                     tag={data.tag}
                                     date={data.date}
@@ -145,6 +154,7 @@ const Home = () => {
                                     content={data.content}
                                     isPinned={data.isPinned}
                                     checkboxValue={data.completed}
+                                    // onEdit={() => handleEdit(data.id)}
                                     onClick={() => handlePinned(data.id)}
                                     onDelete={() => handleDelete(data.id)}
                                     onComplete={() => handleComplete(data.id)}

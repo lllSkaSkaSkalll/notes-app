@@ -1,9 +1,10 @@
 import { PencilSimple, PushPin, Trash } from "@phosphor-icons/react";
 import { formatDistanceToNow } from "date-fns";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
-const CardNotes = ({ title, date, content, isPinned, tag, onClick, onDelete, onComplete, checkboxValue }) => {
+const CardNotes = ({ title, date, content, isPinned, tag, onClick, onDelete, onComplete, checkboxValue, id }) => {
     let dates;
     let dateClass = "";
 
@@ -51,7 +52,9 @@ const CardNotes = ({ title, date, content, isPinned, tag, onClick, onDelete, onC
             <div className="flex items-center justify-between">
                 <p className={`text-lg font-bold`}>{tag}</p>
                 <div className="flex gap-3">
-                    <PencilSimple size={18} className="opacity-50 cursor-pointer hover:opacity-100 hover:text-blue-500" />
+                    <Link to={`/notes-app/edit/${id}-${title}`}>
+                        <PencilSimple size={18} className="opacity-50 cursor-pointer hover:opacity-100 hover:text-blue-500" />
+                    </Link>
                     <Trash size={18} onClick={onDelete} className="opacity-50 cursor-pointer hover:opacity-100 hover:text-red-500" />
                 </div>
             </div>
