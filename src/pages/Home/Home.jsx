@@ -1,8 +1,8 @@
-import { MagnifyingGlass, XLogo } from "@phosphor-icons/react";
 import Navbar from "../../Components/Navbar";
 import CardNotes from "../../Components/Card/CardNotes";
 import { useCallback, useMemo, useState } from "react";
 import { useDebounch } from "../../libs/useDebounch";
+import Header from "../../Components/Header";
 
 const Home = () => {
     const [datas, setDatas] = useState(() => {
@@ -17,7 +17,7 @@ const Home = () => {
         setDatas((prevDatas) => {
             const newPinnedDatas = prevDatas.map((data) => {
                 if (data.id === id) {
-                    return { ...data, isPinned: !data.isPinned };
+                    return { ...data, isPinned: !data.isPinned, updatedAt: new Date().toISOString() };
                 }
                 return data;
             });
@@ -40,7 +40,7 @@ const Home = () => {
         setDatas((prevDatas) => {
             const newDatas = prevDatas.map((data) => {
                 if (data.id === id) {
-                    return { ...data, completed: !data.completed, isPinned: false };
+                    return { ...data, completed: !data.completed, isPinned: false, updatedAt: new Date().toISOString() };
                 }
                 return data;
             });
@@ -50,18 +50,16 @@ const Home = () => {
         });
     }, []);
 
-    // const handleEdit = useCallback((id) => {
-    //     console.log(id);
-    // }, []);
-
     const datasSearch = useMemo(() => {
-        return datas.filter((data) => {
-            if (searchTerm !== "") {
-                return data.search.toLowerCase().includes(searchTerm.toLowerCase());
-            } else {
-                return data;
-            }
-        });
+        return datas
+            .filter((data) => {
+                if (searchTerm !== "") {
+                    return data.search.toLowerCase().includes(searchTerm.toLowerCase());
+                } else {
+                    return data;
+                }
+            })
+            .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
     }, [datas, searchTerm]);
 
     const categoryDatas = useMemo(() => {
@@ -87,26 +85,7 @@ const Home = () => {
             <Navbar total={datas.length} />
 
             <div className="container">
-                <header className="flex items-center justify-between flex-wrap gap-5 border-b-2 border-black py-5">
-                    <h1 className="text-4xl font-podkova font-bold">Pinned Notes({categoryDatas.pinned.length})</h1>
-                    <div className="flex items-center font-bold font-poppins relative">
-                        <div className="flex items-center gap-3 p-3 px-5 bg-slate-700 text-white border-r-4 border-slate-900 rounded-l-xl shadow-[5px_3px_0_0_#000]">
-                            <MagnifyingGlass size={24} />
-                            <p className="text-2xl hidden md:block">Search</p>
-                        </div>
-                        <input
-                            type="text"
-                            name="search"
-                            id="search"
-                            value={searchApi}
-                            onChange={(e) => setSearchApi(e.target.value)}
-                            placeholder="Search..."
-                            className="px-5 py-2 bg-slate-500 text-white rounded-r-xl focus:outline-none focus:border-none shadow-[5px_3px_0_0_#000] w-full md:w-80"
-                        />
-                        <XLogo size={24} onClick={() => setSearchApi("")} className="absolute right-5 text-white cursor-pointer hover:text-yellow-500" />
-                    </div>
-                </header>
-
+                <Header searchApi={searchApi} onChangeInput={(e) => setSearchApi(e.target.value)} categoryDatas={categoryDatas} onClick={() => setSearchApi("")} />
                 <section className="py-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 border-b-2 border-black">
                     {datasSearch.length === 0 ? (
                         <div className="text-center col-span-3 border-2 h-40 rounded-xl leading-[10rem] text-4xl font-bold font-podkova bg-white drop-shadow">Notes is empty</div>
@@ -122,7 +101,6 @@ const Home = () => {
                                     content={data.content}
                                     isPinned={data.isPinned}
                                     checkboxValue={data.completed}
-                                    // onEdit={() => handleEdit(data.id)}
                                     onClick={() => handlePinned(data.id)}
                                     onDelete={() => handleDelete(data.id)}
                                     onComplete={() => handleComplete(data.id)}
@@ -138,7 +116,6 @@ const Home = () => {
                                     content={data.content}
                                     isPinned={data.isPinned}
                                     checkboxValue={data.completed}
-                                    // onEdit={() => handleEdit(data.id)}
                                     onClick={() => handlePinned(data.id)}
                                     onDelete={() => handleDelete(data.id)}
                                     onComplete={() => handleComplete(data.id)}
@@ -154,7 +131,6 @@ const Home = () => {
                                     content={data.content}
                                     isPinned={data.isPinned}
                                     checkboxValue={data.completed}
-                                    // onEdit={() => handleEdit(data.id)}
                                     onClick={() => handlePinned(data.id)}
                                     onDelete={() => handleDelete(data.id)}
                                     onComplete={() => handleComplete(data.id)}

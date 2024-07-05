@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../Components/Navbar";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -35,6 +35,7 @@ const EditPages = () => {
         return data ? JSON.parse(data) : [];
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const navigate = useNavigate();
 
     const {
         handleSubmit,
@@ -69,6 +70,8 @@ const EditPages = () => {
             isPinned: getDataById?.isPinned,
             tag: newTag,
             search: data.title + " " + data.content + " " + data.tag,
+            createdAt: getDataById?.createdAt,
+            updatedAt: new Date().toISOString(),
         };
 
         const updateDatas = datas.filter((data) => data.id !== ids);
@@ -80,6 +83,7 @@ const EditPages = () => {
         setTimeout(() => {
             setIsSubmitting(false);
             reset();
+            navigate("/notes-app/");
         }, 1000);
     };
 
@@ -115,14 +119,18 @@ const EditPages = () => {
                         </div>
                     </div>
                     <div className="pt-10 pb-5">
-                        <button type="submit" disabled={isSubmitting} className="w-full bg-blue-500 hover:translate-y-2 hover:scale-95 group duration-300 text-white font-bold rounded-xl border-2 border-transparent">
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full bg-blue-500 shadow-[inset_0_0_2px_2px_rgb(0,0,0)] hover:shadow-[inset_0_0_10px_2px_rgb(0,0,0)] hover:translate-y-2 hover:scale-95 group duration-300 text-white font-bold rounded-xl border-2 border-transparent"
+                        >
                             {isSubmitting ? (
-                                <div className="w-full py-4 text-xl font-bold font-podkova flex items-center border-2 border-black duration-300 justify-center gap-3 group-hover:bg-white rounded-[inherit] group-hover:bg-opacity-50 backdrop-blur-[2px] group-hover:-translate-y-4 group-hover:text-black group-hover:scale-105">
+                                <div className="w-full py-4 text-xl font-bold font-podkova flex group-hover:shadow-[inset_0_0_10px_2px_rgb(0,0,0)] items-center border-2 border-black duration-300 justify-center gap-3 group-hover:bg-white rounded-[inherit] group-hover:bg-opacity-50 backdrop-blur-[2px] group-hover:-translate-y-4 group-hover:text-black group-hover:scale-105">
                                     <span className="w-5 h-5 animate-spin border-[3px] border-white group-hover:border-black group-hover:border-t-white border-t-teal-500 rounded-full"></span>
                                     <p>Loading...</p>
                                 </div>
                             ) : (
-                                <div className="w-full py-4 text-xl font-bold font-podkova flex items-center border-2 border-black duration-300 justify-center gap-3 group-hover:bg-white rounded-[inherit] group-hover:bg-opacity-50 backdrop-blur-[2px] group-hover:-translate-y-4 group-hover:text-black group-hover:scale-105">
+                                <div className="w-full py-4 text-xl font-bold font-podkova group-hover:shadow-[inset_0_0_10px_2px_rgb(0,0,0)] flex items-center border-2 border-black duration-300 justify-center gap-3 group-hover:bg-white rounded-[inherit] group-hover:bg-opacity-50 backdrop-blur-[2px] group-hover:-translate-y-4 group-hover:text-black group-hover:scale-105">
                                     <p>Submit</p>
                                 </div>
                             )}

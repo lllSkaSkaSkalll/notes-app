@@ -4,6 +4,7 @@ import { getDate } from "../../libs/getDate";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
     title: z.string().trim().min(1, { message: "Title can't empty" }).min(3, { message: "Title must be at least 3 characters" }).max(20, { message: "Title must be less than 20 characters" }),
@@ -41,6 +42,7 @@ const AddNewNotes = () => {
         reset,
         formState: { errors },
     } = useForm({ resolver: zodResolver(schema) });
+    const navigate = useNavigate();
 
     const { todayDate, nextYearDate } = getDate();
 
@@ -62,6 +64,8 @@ const AddNewNotes = () => {
             isPinned: false,
             tag: newTag,
             search: data.title + " " + data.content + " " + data.tag,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
         };
 
         setDatas((prevDatas) => [...prevDatas, newData]);
@@ -70,6 +74,7 @@ const AddNewNotes = () => {
         setTimeout(() => {
             setIsSubmitting(false);
             reset();
+            navigate("/notes-app/");
         }, 1000);
     };
 
