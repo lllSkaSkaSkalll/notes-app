@@ -50,7 +50,8 @@ body::-webkit-scrollbar-thumb,
     background: linear-gradient(to bottom right, purple, black, chartreuse);
 }
 
-.bg-image {
+.bg-image,
+.bg-image-newnotes {
     background-image: url("./assets/bg.jpg");
     background-repeat: no-repeat;
     background-size: cover;

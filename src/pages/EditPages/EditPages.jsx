@@ -48,7 +48,7 @@ const EditPages = () => {
 
     const { id } = useParams();
     const ids = parseInt(id.split("-")[0]);
-    const title = id.split("-")[1];
+    // const title = id.split("-")[1];
 
     const getDataById = datas.find((data) => data.id === ids);
 
@@ -88,33 +88,40 @@ const EditPages = () => {
     };
 
     return (
-        <>
+        <div className="min-h-screen bg-image">
             <Navbar />
 
             <div className="py-20">
-                <form onSubmit={handleSubmit(onSubmit)} className="max-w-[600px] m-auto bg-slate-600 p-5 rounded-xl">
+                <form onSubmit={handleSubmit(onSubmit)} className="max-w-[600px] m-auto bg-slate-600/50 backdrop-blur-[2px] border-[3px] border-white/50 p-5 rounded-xl">
                     <h1 className="text-3xl font-podkova text-center pb-5 border-b-2 font-bold">
-                        Edit Notes - <span className="text-yellow-500">{title}</span>
+                        Edit Notes - <span className="text-yellow-500">{getDataById?.title}</span>
                     </h1>
                     <div className="pt-5 relative">
-                        <p className="text-xs absolute top-0 translate-y-1/2 tracking-wider left-3 text-white border border-black bg-slate-700 rounded-full px-2 py-[2px]">Title :</p>
-                        <input type="text" {...register("title")} defaultValue={getDataById?.title} className="px-2 py-3 w-full text-xl border border-black rounded-xl bg-slate-500 text-white" placeholder="Title..." />
+                        <p className="text-xs absolute top-0 translate-y-1/2 tracking-wider left-3 text-white border border-white bg-black rounded-full px-2 py-[2px]">Title :</p>
+                        <input type="text" {...register("title")} defaultValue={getDataById?.title} className="px-2 py-3 w-full text-xl border border-white bg-opacity-50 rounded-xl bg-black text-white" placeholder="Title..." />
                         {errors.title && <p className="text-red-500">{errors.title.message}</p>}
                     </div>
                     <div className="pt-5 relative">
-                        <p className="text-xs absolute top-0 translate-y-1/2 tracking-wider left-3 text-white border border-black bg-slate-700 rounded-full px-2 py-[2px]">Content :</p>
-                        <input type="text" {...register("content")} defaultValue={getDataById?.content} className="px-2 py-3 w-full text-xl border border-black rounded-xl bg-slate-500 text-white" placeholder="Content..." />
+                        <p className="text-xs absolute top-0 translate-y-1/2 tracking-wider left-3 text-white border border-white bg-black rounded-full px-2 py-[2px]">Content :</p>
+                        <input type="text" {...register("content")} defaultValue={getDataById?.content} className="px-2 py-3 w-full text-xl border border-white rounded-xl bg-black bg-opacity-50 text-white" placeholder="Content..." />
                         {errors.content && <p className="text-red-500">{errors.content.message}</p>}
                     </div>
                     <div className="pt-5 grid grid-cols-1 md:grid-cols-2 gap-5">
                         <div className="relative">
-                            <p className="text-xs absolute -top-2 left-3 tracking-wider text-white border border-black bg-slate-700 rounded-full px-2 py-[2px]">Tags :</p>
-                            <input type="text" {...register("tag")} defaultValue={tag} className="px-2 py-3 w-full text-xl border border-black rounded-xl bg-slate-500 text-white" placeholder="Tags..." />
+                            <p className="text-xs absolute -top-2 left-3 tracking-wider text-white border border-white bg-black rounded-full px-2 py-[2px]">Tags :</p>
+                            <input type="text" {...register("tag")} defaultValue={tag} className="px-2 py-3 w-full text-xl border border-white rounded-xl bg-black bg-opacity-50 text-white" placeholder="Tags..." />
                             {errors.tag && <p className="text-red-500">{errors.tag.message}</p>}
                         </div>
                         <div className="relative">
-                            <p className="text-xs absolute -top-2 left-3 tracking-wider text-white border border-black bg-slate-700 rounded-full px-2 py-[2px]">Month/Day/Year</p>
-                            <input type="date" {...register("date")} defaultValue={getDataById?.date} min={todayDate} max={nextYearDate} className="px-2 py-3 w-full text-xl border border-black rounded-xl bg-slate-500 text-white" />
+                            <p className="text-xs absolute -top-2 left-3 tracking-wider text-white border border-white bg-black rounded-full px-2 py-[2px]">Month/Day/Year</p>
+                            <input
+                                type="date"
+                                {...register("date")}
+                                defaultValue={getDataById?.date}
+                                min={todayDate}
+                                max={nextYearDate}
+                                className="px-2 py-3 w-full text-xl border border-white rounded-xl bg-black bg-opacity-50 text-white"
+                            />
                             {errors.date && <p className="text-red-500">{errors.date.message}</p>}
                         </div>
                     </div>
@@ -138,7 +145,7 @@ const EditPages = () => {
                     </div>
                 </form>
             </div>
-        </>
+        </div>
     );
 };
 

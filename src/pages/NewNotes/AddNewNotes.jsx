@@ -79,32 +79,32 @@ const AddNewNotes = () => {
     };
 
     return (
-        <>
+        <div className="bg-image-newnotes min-h-screen">
             <Navbar />
 
             <section className="container py-20">
                 <div className="">
-                    <form onSubmit={handleSubmit(onSubmit)} className="max-w-[600px] m-auto bg-slate-600 p-5 rounded-xl">
-                        <h1 className="text-3xl font-podkova text-center pb-5 border-b-2 font-bold">Add New Notes</h1>
+                    <form onSubmit={handleSubmit(onSubmit)} className="max-w-[600px] m-auto bg-black/50 p-5 rounded-xl">
+                        <h1 className="text-3xl font-podkova text-center pb-5 border-b-2 font-bold text-white">Add New Notes</h1>
                         <div className="pt-5 relative">
                             <p className="text-xs absolute top-0 translate-y-1/2 tracking-wider left-3 text-white border border-black bg-slate-700 rounded-full px-2 py-[2px]">Title :</p>
-                            <input type="text" {...register("title")} className="px-2 py-3 w-full text-xl border border-black rounded-xl bg-slate-500 text-white" placeholder="Title..." />
+                            <input type="text" {...register("title")} className="px-2 py-3 w-full text-xl border  rounded-xl bg-black/50 border-white text-white" placeholder="Title..." />
                             {errors.title && <p className="text-red-500">{errors.title.message}</p>}
                         </div>
                         <div className="pt-5 relative">
                             <p className="text-xs absolute top-0 translate-y-1/2 tracking-wider left-3 text-white border border-black bg-slate-700 rounded-full px-2 py-[2px]">Content :</p>
-                            <input type="text" {...register("content")} className="px-2 py-3 w-full text-xl border border-black rounded-xl bg-slate-500 text-white" placeholder="Content..." />
+                            <input type="text" {...register("content")} className="px-2 py-3 w-full text-xl border  rounded-xl bg-black/50 border-white text-white" placeholder="Content..." />
                             {errors.content && <p className="text-red-500">{errors.content.message}</p>}
                         </div>
                         <div className="pt-5 grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div className="relative">
                                 <p className="text-xs absolute -top-2 left-3 tracking-wider text-white border border-black bg-slate-700 rounded-full px-2 py-[2px]">Tags :</p>
-                                <input type="text" {...register("tag")} className="px-2 py-3 w-full text-xl border border-black rounded-xl bg-slate-500 text-white" placeholder="Tags..." />
+                                <input type="text" {...register("tag")} className="px-2 py-3 w-full text-xl border k rounded-xl bg-black/50 border-white text-white" placeholder="Tags..." />
                                 {errors.tag && <p className="text-red-500">{errors.tag.message}</p>}
                             </div>
                             <div className="relative">
                                 <p className="text-xs absolute -top-2 left-3 tracking-wider text-white border border-black bg-slate-700 rounded-full px-2 py-[2px]">Month/Day/Year</p>
-                                <input type="date" {...register("date")} defaultValue={todayDate} min={todayDate} max={nextYearDate} className="px-2 py-3 w-full text-xl border border-black rounded-xl bg-slate-500 text-white" />
+                                <input type="date" {...register("date")} defaultValue={todayDate} min={todayDate} max={nextYearDate} className="px-2 py-3 w-full text-xl border  rounded-xl bg-black/50 border-white text-white" />
                                 {errors.date && <p className="text-red-500">{errors.date.message}</p>}
                             </div>
                         </div>
@@ -125,7 +125,7 @@ const AddNewNotes = () => {
                     </form>
                 </div>
             </section>
-        </>
+        </div>
     );
 };
 

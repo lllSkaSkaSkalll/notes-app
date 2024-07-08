@@ -7,8 +7,8 @@ const routes = (
     <Router>
         <Routes>
             <Route path="/notes-app/" exact element={<Home />} />
-            <Route path="/notes-app/newnotes" exact element={<AddNewNotes />} />
-            <Route path="/notes-app/edit">
+            <Route path="/notes-app/newnotes/" exact element={<AddNewNotes />} />
+            <Route path="/notes-app/edit/">
                 <Route path=":id" element={<EditPages />} />
             </Route>
         </Routes>

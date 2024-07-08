@@ -41,7 +41,7 @@ const ProfileNavbar = ({ total }) => {
                 </div>
                 <div className="flex flex-col justify-between">
                     {/* <p className="font-bold font-podkova text-lg max-w-28 truncate">{username}</p> */}
-                    <Link to="/notes-app/newnotes" className="text-center bg-opacity-70 hover:bg-opacity-100 rounded-md bg-red-500 text-black border border-black hover:text-white px-2">
+                    <Link to="/notes-app/newnotes/" className="text-center bg-opacity-70 hover:bg-opacity-100 rounded-md bg-red-500 text-black border border-black hover:text-white px-2">
                         Add New Note
                     </Link>
                 </div>
