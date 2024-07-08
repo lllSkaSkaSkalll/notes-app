@@ -1,10 +1,12 @@
 import { PencilSimple, PushPin, Trash } from "@phosphor-icons/react";
 import { formatDistanceToNow } from "date-fns";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 const CardNotes = ({ title, date, content, isPinned, tag, onClick, onDelete, onComplete, checkboxValue, id }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
     let dates;
     let dateClass = "";
 
@@ -36,33 +38,51 @@ const CardNotes = ({ title, date, content, isPinned, tag, onClick, onDelete, onC
     }, [checkboxValue, dates, onComplete]);
 
     return (
-        <div className={`${checkboxValue === true ? "bg-slate-500 bg-opacity-50" : "bg-white"} p-5 border rounded-xl flex flex-col gap-1 font-semibold relative z-0 shadow-[0_0_10px_0_rgba(0,0,0,0.5)]`}>
-            <label className="flex items-center gap-3 cursor-pointer group">
-                <input type="checkbox" className="hidden checkbox" checked={checkboxValue} onChange={onComplete} />
-                <div className="min-w-5 min-h-5 max-w-5 max-h-5 rounded-full border-2 checkbox-custom group-hover:border-yellow-500 flex items-center justify-center">
-                    <span></span>
+        <div
+            className={`${checkboxValue === true ? "bg-slate-500 bg-opacity-50" : "bg-slate-800 bg-opacity-70"} ${
+                isPinned ? "bg-slate-900 bg-opacity-70" : ""
+            } text-white hover:bg-opacity-100 border-b group/parent border-slate-600 flex flex-col gap-1 font-semibold relative z-0`}
+        >
+            <div className="group/card px-5 py-2 relative">
+                <div className="flex items-center justify-between">
+                    <label className="flex items-center gap-3 cursor-pointer group w-full truncate">
+                        <input type="checkbox" className="hidden checkbox" checked={checkboxValue} onChange={onComplete} />
+                        <div className="min-w-5 min-h-5 max-w-5 max-h-5 rounded-full border-2 checkbox-custom group-hover/parent:border-yellow-500 flex items-center justify-center">
+                            <span></span>
+                        </div>
+                        <h4 className={`${checkboxValue ? "line-through italic text-black" : ""} text-2xl font-podkova group-hover:text-yellow-500 truncate capitalize`}>{title}</h4>
+                    </label>
+                    <div className={`flex gap-3 items-center`}>
+                        <span
+                            onClick={() => setIsOpen(!isOpen)}
+                            className={`${
+                                isOpen ? "rotate-[225deg] translate-y-[4px]" : "rotate-45 -translate-y-[4px]"
+                            } hidden group-hover/card:block duration-300 w-4 h-4 cursor-pointer hover:border-yellow-500 hover:border-t-transparent hover:border-l-transparent border-[3px] border-t-transparent border-l-transparent `}
+                        ></span>
+                        <Trash size={18} onClick={onDelete} className="opacity-50 hidden group-hover/card:block cursor-pointer hover:opacity-100 hover:text-red-500" />
+                        <PushPin
+                            onClick={onClick}
+                            size={28}
+                            className={`${
+                                isPinned ? "text-blue-700 bg-blue-300 hover:text-red-500 hover:bg-opacity-50 block" : "text-white bg-slate-700 hover:text-yellow-500 hover:bg-opacity-80 hidden group-hover/card:block"
+                            } p-[6px] rounded-full cursor-pointer`}
+                        />
+                    </div>
                 </div>
-                <h4 className={`${checkboxValue ? "line-through italic text-slate-500" : ""} text-3xl font-podkova font-bold truncate capitalize`}>{title}</h4>
-            </label>
-            <div className="flex items-center justify-between">
-                <p className={`${checkboxValue ? "line-through italic text-slate-500" : ""} ${dateClass} text-sm`}>{date}</p>
-                <p className={`${checkboxValue ? "line-through italic text-slate-500" : ""} ${dateClass} text-sm`}>{dates}</p>
-            </div>
-            <p className={`${checkboxValue ? "line-through italic text-slate-500" : ""} text-lg truncate`}>{content}</p>
-            <div className="flex items-center justify-between">
-                <p className={`text-lg font-bold`}>{tag}</p>
-                <div className="flex gap-3">
-                    <Link to={`/notes-app/edit/${id}-${title}`}>
-                        <PencilSimple size={18} className="opacity-50 cursor-pointer hover:opacity-100 hover:text-blue-500" />
-                    </Link>
-                    <Trash size={18} onClick={onDelete} className="opacity-50 cursor-pointer hover:opacity-100 hover:text-red-500" />
+                <div className={`${isOpen ? "block" : "hidden"} pl-8 duration-500`}>
+                    <div className="flex items-center justify-between">
+                        <p className={`${checkboxValue ? "line-through italic text-black" : ""} ${dateClass} text-xs`}>{date}</p>
+                        <p className={`${checkboxValue ? "line-through italic text-black" : ""} ${dateClass} text-xs`}>{dates}</p>
+                    </div>
+                    <p className={`${checkboxValue ? "line-through italic text-black" : ""} text-xl py-1 font-poppins`}>{content}</p>
+                    <div className={`flex items-center justify-between`}>
+                        <p className={`${checkboxValue ? "line-through italic text-black" : ""}`}>{tag}</p>
+                        <Link to={`/notes-app/edit/${id}/`}>
+                            <PencilSimple size={18} className="opacity-50 cursor-pointer hover:opacity-100 hover:text-yellow-500" />
+                        </Link>
+                    </div>
                 </div>
             </div>
-            <PushPin
-                onClick={onClick}
-                size={28}
-                className={`${isPinned ? "text-blue-700 bg-blue-300 hover:text-red-500 hover:bg-opacity-50" : "text-white bg-slate-700 hover:text-yellow-500 hover:bg-opacity-80"} absolute top-1 right-1 p-[6px] rounded-full cursor-pointer`}
-            />
         </div>
     );
 };
