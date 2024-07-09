@@ -3,7 +3,8 @@ import CardNotes from "../../Components/Card/CardNotes";
 import { useCallback, useMemo, useState } from "react";
 import { useDebounch } from "../../libs/useDebounch";
 // import Header from "../../Components/Header";
-import { ArrowsDownUp, XLogo } from "@phosphor-icons/react";
+import { ArrowsDownUp } from "@phosphor-icons/react";
+import Header from "../../Components/Headers/Header";
 
 const Home = () => {
     const [datas, setDatas] = useState(() => {
@@ -56,6 +57,7 @@ const Home = () => {
     const handleDeleteComplete = useCallback(() => {
         setDatas((prevDatas) => {
             const newDatas = prevDatas.filter((data) => !data.completed);
+
             localStorage.setItem("datas", JSON.stringify(newDatas));
             return newDatas;
         });
@@ -64,8 +66,14 @@ const Home = () => {
     const handleCompleteAll = useCallback(() => {
         setDatas((prevDatas) => {
             const newDatas = prevDatas.map((data) => {
-                return { ...data, completed: !data.completed, isPinned: false, updatedAt: new Date().toISOString() };
+                if (!data.completed) {
+                    return { ...data, completed: true, isPinned: false, updatedAt: new Date().toISOString() };
+                } else if (data.completed) {
+                    return { ...data, completed: false, isPinned: false, updatedAt: new Date().toISOString() };
+                }
+                return data;
             });
+
             localStorage.setItem("datas", JSON.stringify(newDatas));
             return newDatas;
         });
@@ -117,28 +125,9 @@ const Home = () => {
 
             <div className="max-w-3xl m-auto pb-5 p-5 max-h-screen">
                 <header className="flex items-center justify-between flex-wrap gap-5 w-full py-5">
-                    <div className="flex items-center bg-white/70 font-poppins gap-7 shadow-[0px_0px_5px_0_#ffffff80] px-5 py-2 rounded-xl relative w-full">
-                        <div className="">
-                            <label className="flex items-center gap-3 cursor-pointer group">
-                                <input type="checkbox" checked={inCompleted === 0} onChange={handleCompleteAll} className="hidden checkbox" />
-                                <div className="min-w-7 min-h-7 max-w-7 max-h-7 rounded-full border-[3px] border-black checkbox-custom group-hover:border-yellow-500 flex items-center justify-center">
-                                    <span></span>
-                                </div>
-                            </label>
-                        </div>
-                        <input
-                            type="text"
-                            name="search"
-                            id="search"
-                            value={searchApi}
-                            onChange={(e) => setSearchApi(e.target.value)}
-                            placeholder="Search..."
-                            className="px-5 py-3 text-xl bg-transparent text-black rounded-xl focus:outline-none focus:border-none  w-full"
-                        />
-                        <XLogo size={24} onClick={() => setSearchApi("")} className="absolute right-10 text-black cursor-pointer hover:text-red-700" />
-                    </div>
+                    <Header categoryDatas={categoryDatas} searchApi={searchApi} handleCompleteAll={handleCompleteAll} inCompleted={inCompleted} onChangeInput={(e) => setSearchApi(e.target.value)} onClickLogo={() => setSearchApi("")} />
                 </header>
-                <div className="border-[3px] border-white/60 rounded-xl bg-black/50 mx-auto">
+                <div className="border-[3px] border-white/60 rounded-xl bg-black/50 mx-auto overflow-hidden">
                     <section className="">
                         <div className="flex items-center justify-between w-full border-b border-slate-600 py-2 px-5 backdrop-blur-[2px]">
                             <div className="rounded-t-xl overflow-hidden flex items-center gap-5">
@@ -150,7 +139,7 @@ const Home = () => {
                         {datasSearch.length === 0 ? (
                             <div className="text-center border-2 hover:bg-opacity-80 py-5 text-4xl font-bold font-podkova bg-slate-800 text-white drop-shadow">Notes is empty</div>
                         ) : (
-                            <div className="overflow-y-auto max-h-[430px] scroll-custom">
+                            <div className="overflow-y-auto max-h-[350px] scroll-custom">
                                 {filter === "all" ? (
                                     <>
                                         {categoryDatas.pinned.map((data, index) => (

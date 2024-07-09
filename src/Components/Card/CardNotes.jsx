@@ -57,14 +57,14 @@ const CardNotes = ({ title, date, content, isPinned, tag, onClick, onDelete, onC
                             onClick={() => setIsOpen(!isOpen)}
                             className={`${
                                 isOpen ? "rotate-[225deg] translate-y-[4px]" : "rotate-45 -translate-y-[4px]"
-                            } hidden group-hover/card:block duration-300 w-4 h-4 cursor-pointer hover:border-yellow-500 hover:border-t-transparent hover:border-l-transparent border-[3px] border-t-transparent border-l-transparent `}
+                            } md:hidden block group-hover/card:block duration-300 w-4 h-4 cursor-pointer hover:border-yellow-500 hover:border-t-transparent hover:border-l-transparent border-[3px] border-t-transparent border-l-transparent `}
                         ></span>
-                        <Trash size={18} onClick={onDelete} className="opacity-50 hidden group-hover/card:block cursor-pointer hover:opacity-100 hover:text-red-500" />
+                        <Trash size={18} onClick={onDelete} className="opacity-50 block md:hidden group-hover/card:block cursor-pointer hover:opacity-100 hover:text-red-500" />
                         <PushPin
                             onClick={onClick}
                             size={28}
                             className={`${
-                                isPinned ? "text-blue-700 bg-blue-300 hover:text-red-500 hover:bg-opacity-50 block" : "text-white bg-slate-700 hover:text-yellow-500 hover:bg-opacity-80 hidden group-hover/card:block"
+                                isPinned ? "text-blue-700 bg-blue-300 hover:text-red-500 hover:bg-opacity-50 block" : "text-white bg-slate-700 hover:text-yellow-500 hover:bg-opacity-80 blcok md:hidden group-hover/card:block"
                             } p-[6px] rounded-full cursor-pointer`}
                         />
                     </div>
