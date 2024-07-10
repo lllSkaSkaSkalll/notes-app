@@ -2,9 +2,9 @@ import Navbar from "../../Components/Navbar";
 import CardNotes from "../../Components/Card/CardNotes";
 import { useCallback, useMemo, useState } from "react";
 import { useDebounch } from "../../libs/useDebounch";
-// import Header from "../../Components/Header";
-import { ArrowsDownUp } from "@phosphor-icons/react";
 import Header from "../../Components/Headers/Header";
+import HeaderCard from "../../Components/Card/HeaderCard";
+import FooterCard from "../../Components/Card/FooterCard";
 
 const Home = () => {
     const [datas, setDatas] = useState(() => {
@@ -17,6 +17,11 @@ const Home = () => {
 
     const searchTerm = useDebounch(searchApi, 1000);
 
+    const updatedDatas = (newDatas) => {
+        localStorage.setItem("datas", JSON.stringify(newDatas));
+        setDatas(newDatas);
+    };
+
     const handlePinned = useCallback((id) => {
         setDatas((prevDatas) => {
             const newPinnedDatas = prevDatas.map((data) => {
@@ -26,7 +31,7 @@ const Home = () => {
                 return data;
             });
 
-            localStorage.setItem("datas", JSON.stringify(newPinnedDatas));
+            updatedDatas(newPinnedDatas);
             return newPinnedDatas;
         });
     }, []);
@@ -35,7 +40,7 @@ const Home = () => {
         setDatas((prevDatas) => {
             const newDatas = prevDatas.filter((data) => data.id !== id);
 
-            localStorage.setItem("datas", JSON.stringify(newDatas));
+            updatedDatas(newDatas);
             return newDatas;
         });
     }, []);
@@ -49,7 +54,7 @@ const Home = () => {
                 return data;
             });
 
-            localStorage.setItem("datas", JSON.stringify(newDatas));
+            updatedDatas(newDatas);
             return newDatas;
         });
     }, []);
@@ -58,27 +63,15 @@ const Home = () => {
         setDatas((prevDatas) => {
             const newDatas = prevDatas.filter((data) => !data.completed);
 
-            localStorage.setItem("datas", JSON.stringify(newDatas));
+            updatedDatas(newDatas);
             return newDatas;
         });
     }, []);
 
     const datasSearch = useMemo(() => {
         return datas
-            .filter((data) => {
-                if (searchTerm !== "") {
-                    return data.search.toLowerCase().includes(searchTerm.toLowerCase());
-                } else {
-                    return data;
-                }
-            })
-            .sort((a, b) => {
-                if (isDescending) {
-                    return new Date(b.updatedAt) - new Date(a.updatedAt);
-                } else {
-                    return new Date(a.updatedAt) + new Date(b.updatedAt);
-                }
-            });
+            .filter((data) => (searchTerm !== "" ? data.search.toLowerCase().includes(searchTerm.toLowerCase()) : data))
+            .sort((a, b) => (isDescending ? new Date(b.updatedAt) - new Date(a.updatedAt) : new Date(a.updatedAt) + new Date(b.updatedAt)));
     }, [datas, searchTerm, isDescending]);
 
     const categoryDatas = useMemo(() => {
@@ -106,17 +99,31 @@ const Home = () => {
     const handleCompleteAll = useCallback(() => {
         setDatas((prevDatas) => {
             const newDatas = prevDatas.map((data) => {
-                if (inCompleted > 0) {
-                    return { ...data, completed: true, isPinned: false, updatedAt: new Date().toISOString() };
-                } else {
-                    return { ...data, completed: false, isPinned: false, updatedAt: new Date().toISOString() };
-                }
+                return { ...data, completed: inCompleted > 0, isPinned: false, updatedAt: new Date().toISOString() };
             });
 
-            localStorage.setItem("datas", JSON.stringify(newDatas));
+            updatedDatas(newDatas);
             return newDatas;
         });
     }, [inCompleted]);
+
+    const renderNotes = (notes) => {
+        return notes.map((data, index) => (
+            <CardNotes
+                id={data.id}
+                key={index}
+                tag={data.tag}
+                date={data.date}
+                title={data.title}
+                content={data.content}
+                isPinned={data.isPinned}
+                checkboxValue={data.completed}
+                onClick={() => handlePinned(data.id)}
+                onDelete={() => handleDelete(data.id)}
+                onComplete={() => handleComplete(data.id)}
+            />
+        ));
+    };
 
     return (
         <div className="min-h-screen pb-20 md:pb-0 bg-image">
@@ -129,132 +136,28 @@ const Home = () => {
                 <div className="border-[3px] border-white/60 rounded-xl bg-black/50 mx-auto overflow-hidden">
                     <section className="">
                         <div className="flex items-center justify-between w-full border-b border-slate-600 py-2 px-5 backdrop-blur-[2px]">
-                            <div className="rounded-t-xl overflow-hidden flex items-center gap-5">
-                                <p className="text-2xl font-bold font-podkova text-white drop-shadow">Pinned({categoryDatas.pinned.length})</p>
-                                <p className="text-2xl font-bold font-podkova text-white drop-shadow">Completed({categoryDatas.completed.length})</p>
-                            </div>
-                            <ArrowsDownUp onClick={() => setIsDescending(!isDescending)} size={28} className="text-white cursor-pointer hover:text-yellow-500" />
+                            <HeaderCard pinned={categoryDatas.pinned.length} completed={categoryDatas.completed.length} onClick={() => setIsDescending(!isDescending)} />
                         </div>
                         {datasSearch.length === 0 ? (
                             <div className="text-center border-2 hover:bg-opacity-80 py-5 text-4xl font-bold font-podkova bg-slate-800 text-white drop-shadow">Notes is empty</div>
                         ) : (
                             <div className="overflow-y-auto max-h-[350px] scroll-custom">
-                                {filter === "all" ? (
-                                    <>
-                                        {categoryDatas.pinned.map((data, index) => (
-                                            <CardNotes
-                                                id={data.id}
-                                                key={index}
-                                                tag={data.tag}
-                                                date={data.date}
-                                                title={data.title}
-                                                content={data.content}
-                                                isPinned={data.isPinned}
-                                                checkboxValue={data.completed}
-                                                onClick={() => handlePinned(data.id)}
-                                                onDelete={() => handleDelete(data.id)}
-                                                onComplete={() => handleComplete(data.id)}
-                                            />
-                                        ))}
-                                        {categoryDatas.filltered.map((data, index) => (
-                                            <CardNotes
-                                                id={data.id}
-                                                key={index}
-                                                tag={data.tag}
-                                                date={data.date}
-                                                title={data.title}
-                                                content={data.content}
-                                                isPinned={data.isPinned}
-                                                checkboxValue={data.completed}
-                                                onClick={() => handlePinned(data.id)}
-                                                onDelete={() => handleDelete(data.id)}
-                                                onComplete={() => handleComplete(data.id)}
-                                            />
-                                        ))}
-                                        {categoryDatas.completed.map((data, index) => (
-                                            <CardNotes
-                                                id={data.id}
-                                                key={index}
-                                                tag={data.tag}
-                                                date={data.date}
-                                                title={data.title}
-                                                content={data.content}
-                                                isPinned={data.isPinned}
-                                                checkboxValue={data.completed}
-                                                onClick={() => handlePinned(data.id)}
-                                                onDelete={() => handleDelete(data.id)}
-                                                onComplete={() => handleComplete(data.id)}
-                                            />
-                                        ))}
-                                    </>
-                                ) : filter === "active" ? (
-                                    <>
-                                        {categoryDatas.pinned.map((data, index) => (
-                                            <CardNotes
-                                                id={data.id}
-                                                key={index}
-                                                tag={data.tag}
-                                                date={data.date}
-                                                title={data.title}
-                                                content={data.content}
-                                                isPinned={data.isPinned}
-                                                checkboxValue={data.completed}
-                                                onClick={() => handlePinned(data.id)}
-                                                onDelete={() => handleDelete(data.id)}
-                                                onComplete={() => handleComplete(data.id)}
-                                            />
-                                        ))}
-                                        {categoryDatas.filltered.map((data, index) => (
-                                            <CardNotes
-                                                id={data.id}
-                                                key={index}
-                                                tag={data.tag}
-                                                date={data.date}
-                                                title={data.title}
-                                                content={data.content}
-                                                isPinned={data.isPinned}
-                                                checkboxValue={data.completed}
-                                                onClick={() => handlePinned(data.id)}
-                                                onDelete={() => handleDelete(data.id)}
-                                                onComplete={() => handleComplete(data.id)}
-                                            />
-                                        ))}
-                                    </>
-                                ) : (
-                                    categoryDatas.completed.map((data, index) => (
-                                        <CardNotes
-                                            id={data.id}
-                                            key={index}
-                                            tag={data.tag}
-                                            date={data.date}
-                                            title={data.title}
-                                            content={data.content}
-                                            isPinned={data.isPinned}
-                                            checkboxValue={data.completed}
-                                            onClick={() => handlePinned(data.id)}
-                                            onDelete={() => handleDelete(data.id)}
-                                            onComplete={() => handleComplete(data.id)}
-                                        />
-                                    ))
-                                )}
+                                {filter === "all"
+                                    ? renderNotes([...categoryDatas.pinned, ...categoryDatas.filltered, ...categoryDatas.completed])
+                                    : filter === "active"
+                                    ? renderNotes([...categoryDatas.pinned, ...categoryDatas.filltered])
+                                    : renderNotes(categoryDatas.completed)}
                             </div>
                         )}
                         <div className="px-5 py-2 text-xl relative font-podkova gap-5 text-nowrap text-slate-500 backdrop-blur-[2px] flex items-center justify-between">
-                            <p className="">{inCompleted} Items Left</p>
-                            <div className="flex absolute top-[150%] backdrop-blur-[2px] left-0 md:static justify-between items-center w-full px-5 md:px-0 py-2 md:py-0 bg-black/50 md:bg-transparent rounded-xl md:justify-center gap-5 text-2xl">
-                                <p onClick={() => setFilter("all")} className={`${filter === "all" ? "text-teal-500" : "hover:text-yellow-500"} cursor-pointer `}>
-                                    All
-                                </p>
-                                <p onClick={() => setFilter("active")} className={`${filter === "active" ? "text-teal-500" : "hover:text-yellow-500"} cursor-pointer `}>
-                                    Active
-                                </p>
-                                <p onClick={() => setFilter("completed")} className={`${filter === "completed" ? "text-teal-500" : "hover:text-yellow-500"} cursor-pointer `}>
-                                    Completed
-                                </p>
-                            </div>
-                            <p onClick={handleDeleteComplete} className="cursor-pointer hover:text-yellow-500">
-                                Clear Complete
-                            </p>
+                            <FooterCard
+                                filter={filter}
+                                inCompleted={inCompleted}
+                                filterAll={() => setFilter("all")}
+                                filterActive={() => setFilter("active")}
+                                filterCompleted={() => setFilter("completed")}
+                                handleDeleteComplete={handleDeleteComplete}
+                            />
                         </div>
                     </section>
                 </div>
