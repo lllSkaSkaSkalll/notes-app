@@ -136,7 +136,11 @@ const Home = () => {
                 <div className="border-[3px] border-white/60 rounded-xl bg-black/50 mx-auto overflow-hidden">
                     <section className="">
                         <div className="flex items-center justify-between w-full border-b border-slate-600 py-2 px-5 backdrop-blur-[2px]">
-                            <HeaderCard pinned={categoryDatas.pinned.length} completed={categoryDatas.completed.length} onClick={() => setIsDescending(!isDescending)} />
+                            <HeaderCard 
+                                pinned={categoryDatas.pinned.length} 
+                                completed={categoryDatas.completed.length} 
+                                onClick={() => setIsDescending(!isDescending)} 
+                            />
                         </div>
                         {datasSearch.length === 0 ? (
                             <div className="text-center border-2 hover:bg-opacity-80 py-5 text-4xl font-bold font-podkova bg-slate-800 text-white drop-shadow">Notes is empty</div>
