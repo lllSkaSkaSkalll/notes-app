@@ -133,9 +133,9 @@ const Home = () => {
                 <header className="flex items-center justify-between flex-wrap gap-5 w-full py-5">
                     <Header categoryDatas={categoryDatas} searchApi={searchApi} handleCompleteAll={handleCompleteAll} inCompleted={inCompleted} onChangeInput={(e) => setSearchApi(e.target.value)} onClickLogo={() => setSearchApi("")} />
                 </header>
-                <div className="border-[3px] border-white/60 rounded-xl bg-black/50 mx-auto overflow-hidden">
+                <div className="border-[3px] border-white/60 rounded-xl bg-black/50 mx-auto">
                     <section className="">
-                        <div className="flex items-center justify-between w-full border-b border-slate-600 py-2 px-5 backdrop-blur-[2px]">
+                        <div className="flex items-center justify-between w-full border-b rounded-t-xl border-slate-600 py-2 px-5 backdrop-blur-[2px]">
                             <HeaderCard pinned={categoryDatas.pinned.length} completed={categoryDatas.completed.length} onClick={() => setIsDescending(!isDescending)} />
                         </div>
                         {datasSearch.length === 0 ? (
@@ -149,7 +149,7 @@ const Home = () => {
                                     : renderNotes(categoryDatas.completed)}
                             </div>
                         )}
-                        <div className="px-5 py-2 text-xl relative font-podkova gap-5 text-nowrap text-slate-500 backdrop-blur-[2px] flex items-center justify-between">
+                        <div className="px-5 py-2 text-xl relative font-podkova gap-5 text-nowrap text-slate-500 backdrop-blur-[2px] flex items-center justify-between rounded-b-xl">
                             <FooterCard
                                 filter={filter}
                                 inCompleted={inCompleted}
