@@ -63,22 +63,6 @@ const Home = () => {
         });
     }, []);
 
-    const handleCompleteAll = useCallback(() => {
-        setDatas((prevDatas) => {
-            const newDatas = prevDatas.map((data) => {
-                if (!data.completed) {
-                    return { ...data, completed: true, isPinned: false, updatedAt: new Date().toISOString() };
-                } else if (data.completed) {
-                    return { ...data, completed: false, isPinned: false, updatedAt: new Date().toISOString() };
-                }
-                return data;
-            });
-
-            localStorage.setItem("datas", JSON.stringify(newDatas));
-            return newDatas;
-        });
-    }, []);
-
     const datasSearch = useMemo(() => {
         return datas
             .filter((data) => {
@@ -118,6 +102,21 @@ const Home = () => {
     const inCompleted = useMemo(() => {
         return datas.filter((data) => !data.completed).length;
     }, [datas]);
+
+    const handleCompleteAll = useCallback(() => {
+        setDatas((prevDatas) => {
+            const newDatas = prevDatas.map((data) => {
+                if (inCompleted > 0) {
+                    return { ...data, completed: true, isPinned: false, updatedAt: new Date().toISOString() };
+                } else {
+                    return { ...data, completed: false, isPinned: false, updatedAt: new Date().toISOString() };
+                }
+            });
+
+            localStorage.setItem("datas", JSON.stringify(newDatas));
+            return newDatas;
+        });
+    }, [inCompleted]);
 
     return (
         <div className="min-h-screen pb-20 md:pb-0 bg-image">

@@ -50,7 +50,13 @@ const CardNotes = ({ title, date, content, isPinned, tag, onClick, onDelete, onC
                         <div className="min-w-5 min-h-5 max-w-5 max-h-5 rounded-full border-2 checkbox-custom group-hover/parent:border-yellow-500 flex items-center justify-center">
                             <span></span>
                         </div>
-                        <h4 className={`${checkboxValue ? "line-through italic text-black" : ""} text-2xl font-podkova group-hover:text-yellow-500 truncate capitalize`}>{title}</h4>
+                        <div className="">
+                            <h4 className={`${checkboxValue ? "line-through italic text-black" : ""} text-2xl font-podkova group-hover:text-yellow-500 truncate capitalize`}>{title}</h4>
+                            <div className={`${isOpen ? "hidden" : "block"} flex items-center justify-between gap-5`}>
+                                <p className={`${checkboxValue ? "line-through italic text-black" : ""} ${dateClass} text-xs`}>{date}</p>
+                                <p className={`${checkboxValue ? "line-through italic text-black" : ""} ${dateClass} text-xs`}>{dates}</p>
+                            </div>
+                        </div>
                     </label>
                     <div className={`flex gap-3 items-center`}>
                         <span
@@ -60,12 +66,13 @@ const CardNotes = ({ title, date, content, isPinned, tag, onClick, onDelete, onC
                             } md:hidden block group-hover/card:block duration-300 w-4 h-4 cursor-pointer hover:border-yellow-500 hover:border-t-transparent hover:border-l-transparent border-[3px] border-t-transparent border-l-transparent `}
                         ></span>
                         <Trash size={18} onClick={onDelete} className="opacity-50 block md:hidden group-hover/card:block cursor-pointer hover:opacity-100 hover:text-red-500" />
+
                         <PushPin
-                            onClick={onClick}
+                            onClick={checkboxValue ? null : onClick}
                             size={28}
-                            className={`${
-                                isPinned ? "text-blue-700 bg-blue-300 hover:text-red-500 hover:bg-opacity-50 block" : "text-white bg-slate-700 hover:text-yellow-500 hover:bg-opacity-80 blcok md:hidden group-hover/card:block"
-                            } p-[6px] rounded-full cursor-pointer`}
+                            className={`${isPinned ? "text-blue-700 bg-blue-300 hover:text-red-500 hover:bg-opacity-50 block" : "text-white bg-slate-700 hover:text-yellow-500 hover:bg-opacity-80 blcok md:hidden group-hover/card:block"} ${
+                                checkboxValue ? "cursor-not-allowed" : "cursor-pointer"
+                            } p-[6px] rounded-full`}
                         />
                     </div>
                 </div>
