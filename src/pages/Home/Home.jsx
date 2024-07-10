@@ -135,7 +135,7 @@ const Home = () => {
                 </header>
                 <div className="border-[3px] border-white/60 rounded-xl bg-black/50 mx-auto">
                     <section className="">
-                        <div className="flex items-center justify-between w-full border-b rounded-t-xl border-slate-600 py-2 px-5 backdrop-blur-[2px]">
+                        <div className="flex items-center justify-between w-full border-b border-slate-600 py-2 px-5 backdrop-blur-[2px]">
                             <HeaderCard pinned={categoryDatas.pinned.length} completed={categoryDatas.completed.length} onClick={() => setIsDescending(!isDescending)} />
                         </div>
                         {datasSearch.length === 0 ? (
